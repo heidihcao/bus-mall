@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(250, 211, 225);
+}
+
+div{
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 80px;
+  color: rgb(88, 36, 36);
+  font-family: 'Gluten', cursive;
+}
+
+header {
+  background-color: rgb(66, 67, 66);
+  width: 960px;
+  margin:auto;
+  display:flex;
+}
+
+body header nav {
+  display: flex;
+  align-items: center; 
+  color:white;
+  font-size: 60px;
+  font-family: 'Gluten', cursive;
+  justify-content: center ;
+  margin-bottom: 40px;
+  margin-top:40px;
+}
+
+main,
+header nav {
+  margin: 0 auto;
+  width: 1200px;
+  color: rgb(66, 65, 65);
+}
+
+main > section {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0 0.5rem 0;
+  gap: 10px;
+}
+
+h3{
+  color: rgb(88, 36, 36);
+  font-family: 'Gluten', cursive;
+  margin-bottom: 40px;
+  margin-top:40px;
+  text-align: center;
+  font-size: 40px;
+}
+
+#submitbutton{
+  border: 1px solid none;
+  background-color: rgb(66, 67, 66);
+  color:white;
+  padding: 15px 60px;
+  border-radius: 200px;
+  font-family: 'Gluten', cursive;
+  text-decoration: transparent;
+}
+
+ul{
+  font-family: 'georgia', serif;
+  font-size: 20px;
+  line-height: 2;
+  text-align: center;
+}
+
+img{
+  width: 320px;
+  height: 320px;
+}
