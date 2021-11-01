@@ -49,8 +49,14 @@ function renderProduct() {
   let product2 = selectRandomProduct();
   let product3 = selectRandomProduct();
 
-  while (product1 === product2 === product3); {
+  while (product1 === product2) {
     product1 = selectRandomProduct();
+    product2 = selectRandomProduct();
+   
+  }
+
+  while (product2 === product3) {
+
     product2 = selectRandomProduct();
     product3 = selectRandomProduct();
   }
@@ -71,23 +77,22 @@ function handleProductClick(event) {
     alert('Please click on an image');
   }
   clicks++;
-  let clickedProduct = event.target.alt;
+  let clickedProduct = event.target.alt; //explain target.
 
   for (let i = 0; i < allProducts.length; i++) {
     if (clickedProduct === allProducts[i].name) {
       allProducts[i].likes++;
       allProducts[i].percentage = allProducts[i].likes / clicksAllowed * 100;
-      console.log(allProducts[i].percentage);
       break;
     }
 
   }
-  renderProduct();
+  renderProduct(); //why call it twice
 
   if (clicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleProductClick);
     myButton.addEventListener('click', handleButtonClick);
-    myButton.className = 'clicks-allowed';
+    myButton.className = 'clicks-allowed'; //why
     alert('You have reached the end of 25 rounds! Now click VIEW RESULTS below to see your stats.');
   }
 }
