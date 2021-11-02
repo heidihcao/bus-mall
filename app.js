@@ -55,7 +55,7 @@ function renderProduct() {
    
   }
 
-  while (product2 === product3) {
+  while (product2 === product3)  {
 
     product2 = selectRandomProduct();
     product3 = selectRandomProduct();
@@ -77,7 +77,7 @@ function handleProductClick(event) {
     alert('Please click on an image');
   }
   clicks++;
-  let clickedProduct = event.target.alt; //explain target.
+  let clickedProduct = event.target.alt; 
 
   for (let i = 0; i < allProducts.length; i++) {
     if (clickedProduct === allProducts[i].name) {
@@ -87,7 +87,7 @@ function handleProductClick(event) {
     }
 
   }
-  renderProduct(); //why call it twice
+  renderProduct(); 
 
   if (clicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleProductClick);
