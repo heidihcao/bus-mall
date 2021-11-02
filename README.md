@@ -1,7 +1,7 @@
 # bus-mall
 - Three products at a time, side-by-side-by-side:
   -  manage the size and the aspect ratio of the images
-- * On top of total number of clicks, also show the % of times that an item was clicked when it was shown.
+- On top of total number of clicks, also show the % of times that an item was clicked when it was shown.
   - Keep track of how many times each image is displayed and do calculations
   
 - Create a constructor function that creates an object associated with each product, and has the following properties:
@@ -21,3 +21,6 @@
   - After voting rounds have been completed, remove the event listeners on the product.
   - Add a button with the text "View Results," which when clicked displays the list of all the products followed by the votes received, and number of times seen for each. Example: "banana had 3 votes, and was seen 5 times."
   - NOTE: Displayed product names should match the file name for the product. Example: the product represented with "dog-duck.jpg" should be displayed to the user as exactly “dog-duck” when the results are shown.
+  
+  
+** How would I program interactive CLICKS REMAINING? **
