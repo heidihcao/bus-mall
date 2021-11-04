@@ -1,15 +1,16 @@
 'use strict';
 
 const myContainer = document.querySelector('section');
-const myButton = document.querySelector('section + div');
+// const myButton = document.querySelector('section + div');
 let image1 = document.querySelector('section img:first-child');
 let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:nth-child(3)');
-const results = document.querySelector('ul');
+// const results = document.querySelector('ul');
 
 let allProducts = [];
 let clicks = 0;
 const clicksAllowed = 25;
+let indexArray = [];
 
 function Product(name, fileExtension = 'jpg') {
   this.name = name;
@@ -45,21 +46,28 @@ function selectRandomProduct() {
 }
 
 function renderProduct() {
-  let product1 = selectRandomProduct();
-  let product2 = selectRandomProduct();
-  let product3 = selectRandomProduct();
+  // let product1 = selectRandomProduct();
+  // let product2 = selectRandomProduct();
+  // let product3 = selectRandomProduct();
 
-  while (product1 === product2) {
-    product1 = selectRandomProduct();
-    product2 = selectRandomProduct();
-   
+  while (indexArray.length < 6) {
+    // product1 = selectRandomProduct();
+    // product2 = selectRandomProduct();
+    let ranNum =selectRandomProduct();
+    if(!indexArray.includes(ranNum)){
+      indexArray.push(ranNum);
+    }
   }
 
-  while (product2 === product3)  {
+  let product1 = indexArray.shift();
+  let product2 = indexArray.shift();
+  let product3 = indexArray.shift();
 
-    product2 = selectRandomProduct();
-    product3 = selectRandomProduct();
-  }
+  // while (product2 === product3)  {
+
+  //   product2 = selectRandomProduct();
+  //   product3 = selectRandomProduct();
+  // }
 
   image1.src = allProducts[product1].src;
   image1.alt = allProducts[product1].name;
@@ -91,18 +99,72 @@ function handleProductClick(event) {
 
   if (clicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleProductClick);
-    myButton.addEventListener('click', handleButtonClick);
-    myButton.className = 'clicks-allowed'; //why
+    // myButton.addEventListener('click', handleButtonClick);
+    // myButton.className = 'clicks-allowed'; //why
     alert('You have reached the end of 25 rounds! Now click VIEW RESULTS below to see your stats.');
+    renderChart();
   }
 }
 
-function handleButtonClick() {
+// function handleButtonClick() {
+//   for (let i = 0; i < allProducts.length; i++) {
+//     let li = document.createElement('li');
+//     li.textContent = `${allProducts[i].name} had ${allProducts[i].views} view and was clicked ${allProducts[i].likes} times. The percentage of click per view is ${allProducts[i].percentage}%`;
+//     results.appendChild(li);
+//   };
+// }
+
+
+function renderChart() {
+  let prodNames = [];
+  let prodLikes = [];
+  let prodViews = [];
   for (let i = 0; i < allProducts.length; i++) {
-    let li = document.createElement('li');
-    li.textContent = `${allProducts[i].name} had ${allProducts[i].views} view and was clicked ${allProducts[i].likes} times. The percentage of click per view is ${allProducts[i].percentage}%`;
-    results.appendChild(li);
+    prodNames.push(allProducts[i].name);
+    prodLikes.push(allProducts[i].likes);
+    prodViews.push(allProducts[i].views);
+  }
+  // console.log(prodLikes);
+
+  const data = {
+    labels: prodNames,
+    datasets: [{
+      label: 'Likes',
+      data: prodLikes,
+      backgroundColor: [
+        'rgba(42, 233, 138, 0.7)'
+      ],
+      borderColor: [
+        'rgb(42, 233, 138)'
+      ],
+      borderWidth: 5
+    },
+    {
+      label: 'Views',
+      data: prodViews,
+      backgroundColor: [
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgb(255, 159, 64)'
+      ],
+      borderWidth: 8
+    }]
   };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+  let canvasChart = document.getElementById('myChart');
+  const myChart = new Chart(canvasChart,config);
 }
 
 renderProduct();
