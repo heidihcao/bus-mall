@@ -1,4 +1,6 @@
 # bus-mall
+
+## First Lab Oct 30 ## 
 - Three products at a time, side-by-side-by-side:
   -  manage the size and the aspect ratio of the images
 - On top of total number of clicks, also show the % of times that an item was clicked when it was shown.
@@ -24,3 +26,11 @@
   
   
 ** How would I program interactive CLICKS REMAINING? **
+
+## Second Lab Nov 3 ##
+- prevent users from seeing the same image in two subsequent iterations
+- Update your algorithm to randomly generate three unique product images from the images directory.
+- Update your algorithm so that new products are generated, confirm that these products are not duplicates from the immediate previous set.
+- Using ChartJS (imported from CDN), display the vote totals and the number of times a product was viewed in a bar chart format. (hint: don’t forget about the <canvas> tags)
+- Place the bar chart in the section located beneath your three product images
+The bar charts should only appear after all voting data has been collected.
