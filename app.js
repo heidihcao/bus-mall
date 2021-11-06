@@ -79,24 +79,9 @@ function getProduct(){
     let parsedProduct = JSON.parse(potentialProduct);
     console.log(parsedProduct);
     return localStorage.getItem('product');
-    // for (let product of parsedProduct){
-    //   let name = product.name;
-    //   let src = product.`${name}.${fileExtension}`;
-    //   let likes = product.likes;
-    //   let views = product.views;
-    //   let percentage = product.percentage;
-    // }
   }
   console.log(allProducts);
 };
-
-// function retrieve() {
-//   for (var i = 0; i < credList.length; i++) {
-//     var newCred = new Credential(credList[i].name, credList[i].address, credList[i].email);
-//     storageArray.push(newCred);
-//     writeRowToPage(newCred, 'output');
-//   }
-// }
 
 
 function handleProductClick(event) {
@@ -115,39 +100,51 @@ function handleProductClick(event) {
   }
   renderProduct(); 
 
+
   if (clicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleProductClick);
     alert('You have reached the end of 25 rounds! Now click VIEW RESULTS below to see your stats.');
-    
-    storeProduct(); 
+    storeProduct();
+
     renderChart();
   }
 };
-
-// function handleButtonClick() {
-//   for (let i = 0; i < allProducts.length; i++) {
-//     let li = document.createElement('li');
-//     li.textContent = `${allProducts[i].name} had ${allProducts[i].views} view and was clicked ${allProducts[i].likes} times. The percentage of click per view is ${allProducts[i].percentage}%`;
-//     results.appendChild(li);
-//   };
-// }
-
 
 function renderChart() {
   let prodNames = [];
   let prodLikes = [];
   let prodViews = [];
+
+
+  function storeLikes () {
+    let stringifiedLikes = JSON.stringify(prodLikes);
+    localStorage.setItem('aggregateLikes',stringifiedLikes);
+  }
+
+  function getLikes(){
+    let potentialLikes = localStorage.getItem('aggregateLikes');
+    if (potentialLikes){
+      let parsedLikes = JSON.parse(potentialLikes);
+      return localStorage.getItem('aggregateLikes');
+      
+    }
+  };
+  console.log(parsedLikes);
+  storeLikes ();
+  getLikes();
+
   for (let i = 0; i < allProducts.length; i++) {
     prodNames.push(allProducts[i].name);
     prodLikes.push(allProducts[i].likes);
     prodViews.push(allProducts[i].views);
   }
 
+
   const data = {
     labels: prodNames,
     datasets: [{
       label: 'Likes',
-      data: prodLikes,
+      data: prodViews,
       backgroundColor: [
         'rgba(42, 233, 138, 0.7)'
       ],
