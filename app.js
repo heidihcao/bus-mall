@@ -1,15 +1,13 @@
 'use strict';
 
 const myContainer = document.querySelector('section');
-// const myButton = document.querySelector('section + div');
 let image1 = document.querySelector('section img:first-child');
 let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:nth-child(3)');
-// const results = document.querySelector('ul');
 
 let allProducts = [];
 let clicks = 0;
-const clicksAllowed = 25;
+const clicksAllowed = 4;
 let indexArray = [];
 
 function Product(name, fileExtension = 'jpg') {
@@ -46,13 +44,8 @@ function selectRandomProduct() {
 }
 
 function renderProduct() {
-  // let product1 = selectRandomProduct();
-  // let product2 = selectRandomProduct();
-  // let product3 = selectRandomProduct();
 
   while (indexArray.length < 6) {
-    // product1 = selectRandomProduct();
-    // product2 = selectRandomProduct();
     let ranNum =selectRandomProduct();
     if(!indexArray.includes(ranNum)){
       indexArray.push(ranNum);
@@ -62,12 +55,6 @@ function renderProduct() {
   let product1 = indexArray.shift();
   let product2 = indexArray.shift();
   let product3 = indexArray.shift();
-
-  // while (product2 === product3)  {
-
-  //   product2 = selectRandomProduct();
-  //   product3 = selectRandomProduct();
-  // }
 
   image1.src = allProducts[product1].src;
   image1.alt = allProducts[product1].name;
@@ -79,6 +66,38 @@ function renderProduct() {
   image3.alt = allProducts[product3].name;
   allProducts[product3].views++;
 }
+
+function storeProduct () {
+  let stringifiedProduct = JSON.stringify(allProducts);
+  console.log(stringifiedProduct);
+  localStorage.setItem('product',stringifiedProduct);
+}
+
+function getProduct(){
+  let potentialProduct = localStorage.getItem('product');
+  if (potentialProduct){
+    let parsedProduct = JSON.parse(potentialProduct);
+    console.log(parsedProduct);
+    return localStorage.getItem('product');
+    // for (let product of parsedProduct){
+    //   let name = product.name;
+    //   let src = product.`${name}.${fileExtension}`;
+    //   let likes = product.likes;
+    //   let views = product.views;
+    //   let percentage = product.percentage;
+    // }
+  }
+  console.log(allProducts);
+};
+
+// function retrieve() {
+//   for (var i = 0; i < credList.length; i++) {
+//     var newCred = new Credential(credList[i].name, credList[i].address, credList[i].email);
+//     storageArray.push(newCred);
+//     writeRowToPage(newCred, 'output');
+//   }
+// }
+
 
 function handleProductClick(event) {
   if (event.target === myContainer) {
@@ -93,18 +112,17 @@ function handleProductClick(event) {
       allProducts[i].percentage = allProducts[i].likes / clicksAllowed * 100;
       break;
     }
-
   }
   renderProduct(); 
 
   if (clicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleProductClick);
-    // myButton.addEventListener('click', handleButtonClick);
-    // myButton.className = 'clicks-allowed'; //why
     alert('You have reached the end of 25 rounds! Now click VIEW RESULTS below to see your stats.');
+    
+    storeProduct(); 
     renderChart();
   }
-}
+};
 
 // function handleButtonClick() {
 //   for (let i = 0; i < allProducts.length; i++) {
@@ -124,7 +142,6 @@ function renderChart() {
     prodLikes.push(allProducts[i].likes);
     prodViews.push(allProducts[i].views);
   }
-  // console.log(prodLikes);
 
   const data = {
     labels: prodNames,
@@ -168,5 +185,6 @@ function renderChart() {
 }
 
 renderProduct();
+getProduct();
 myContainer.addEventListener('click', handleProductClick);
 

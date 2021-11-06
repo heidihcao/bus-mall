@@ -34,3 +34,17 @@
 - Using ChartJS (imported from CDN), display the vote totals and the number of times a product was viewed in a bar chart format. (hint: don’t forget about the <canvas> tags)
 - Place the bar chart in the section located beneath your three product images
 The bar charts should only appear after all voting data has been collected.
+
+## Third Lab Nov 6 ##
+- As a user, I would like my data to persistently track ** totals ** between page refreshes, so that I can keep track of the aggregate number of votes.
+
+- Implement local storage into your current application
+- Make sure the data persists across both browser refreshes and resets
+
+Hints:
+
+- Store the products array into local storage as a formatted JSON string
+- Retrieve the products array from local storage and then utilize the JSON.Parse() function.
+- Remember, if your constructor utilizes prototype methods, you will have to send each item in the array back through the constructor function.
+- Do not restart the counter = 0 for likes and views
+- png and jpg can be challening for re-instantiation so think of a solution!
