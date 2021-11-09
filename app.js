@@ -15,8 +15,25 @@ function Product(name, fileExtension = 'jpg') {
   this.src = `assets/${name}.${fileExtension}`;
   this.likes = 0;
   this.views = 0;
-  this.percentage = 0;
+  let one = JSON.parse(localStorage.getItem(this.name));
+  if (one){
+    this.total =  one.total
+  } else{
+    this.total = {
+      views:[],
+      likes:[]
+    };
+  }
+
   allProducts.push(this);
+}
+
+Product.prototype.storeToLocalStorage = function() {
+  console.log(this);
+  this.total.views.push(this.views);
+  this.total.likes.push(this.likes);
+  console.log(JSON.stringify(this));
+  localStorage.setItem(this.name, JSON.stringify(this));
 }
 
 new Product('bag');
@@ -65,24 +82,17 @@ function renderProduct() {
   image3.src = allProducts[product3].src;
   image3.alt = allProducts[product3].name;
   allProducts[product3].views++;
-}
-
-function storeProduct () {
-  let stringifiedProduct = JSON.stringify(allProducts);
-  console.log(stringifiedProduct);
-  localStorage.setItem('product',stringifiedProduct);
-}
-
-function getProduct(){
-  let potentialProduct = localStorage.getItem('product');
-  if (potentialProduct){
-    let parsedProduct = JSON.parse(potentialProduct);
-    console.log(parsedProduct);
-    return localStorage.getItem('product');
-  }
-  console.log(allProducts);
 };
 
+// function getProduct(){
+//   let potentialProduct = localStorage.getItem('product');
+//   if (potentialProduct){
+//     let parsedProduct = JSON.parse(potentialProduct);
+//     console.log(parsedProduct);
+//     return localStorage.getItem('product');
+//   }
+//   console.log(allProducts);
+// };
 
 function handleProductClick(event) {
   if (event.target === myContainer) {
@@ -94,18 +104,19 @@ function handleProductClick(event) {
   for (let i = 0; i < allProducts.length; i++) {
     if (clickedProduct === allProducts[i].name) {
       allProducts[i].likes++;
-      allProducts[i].percentage = allProducts[i].likes / clicksAllowed * 100;
+      //allProducts[i].percentage = allProducts[i].likes / clicksAllowed * 100;
       break;
     }
   }
-  renderProduct(); 
 
+  renderProduct(); 
 
   if (clicks === clicksAllowed) {
     myContainer.removeEventListener('click', handleProductClick);
     alert('You have reached the end of 25 rounds! Now click VIEW RESULTS below to see your stats.');
-    storeProduct();
-
+    for (let i=0; i < allProducts.length; i++) {
+      allProducts[i].storeToLocalStorage();
+    }
     renderChart();
   }
 };
@@ -115,36 +126,26 @@ function renderChart() {
   let prodLikes = [];
   let prodViews = [];
 
-
-  function storeLikes () {
-    let stringifiedLikes = JSON.stringify(prodLikes);
-    localStorage.setItem('aggregateLikes',stringifiedLikes);
-  }
-
-  function getLikes(){
-    let potentialLikes = localStorage.getItem('aggregateLikes');
-    if (potentialLikes){
-      let parsedLikes = JSON.parse(potentialLikes);
-      return localStorage.getItem('aggregateLikes');
-      
-    }
-  };
-  console.log(parsedLikes);
-  storeLikes ();
-  getLikes();
-
   for (let i = 0; i < allProducts.length; i++) {
     prodNames.push(allProducts[i].name);
-    prodLikes.push(allProducts[i].likes);
-    prodViews.push(allProducts[i].views);
-  }
+
+    let eViews = 0;
+    let eLikes = 0;
+    for (let j = 0; j < allProducts[i].total.views.length; j++) {
+      eViews += allProducts[i].total.views[j];
+      eLikes += allProducts[i].total.likes[j];
+    }
+    prodLikes.push(eLikes);
+    prodViews.push(eViews);
+
+  };
 
 
   const data = {
     labels: prodNames,
     datasets: [{
       label: 'Likes',
-      data: prodViews,
+      data: prodLikes,
       backgroundColor: [
         'rgba(42, 233, 138, 0.7)'
       ],
@@ -179,9 +180,9 @@ function renderChart() {
   };
   let canvasChart = document.getElementById('myChart');
   const myChart = new Chart(canvasChart,config);
+
 }
 
 renderProduct();
-getProduct();
 myContainer.addEventListener('click', handleProductClick);
 
