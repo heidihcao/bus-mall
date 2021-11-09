@@ -7,7 +7,7 @@ let image3 = document.querySelector('section img:nth-child(3)');
 
 let allProducts = [];
 let clicks = 0;
-const clicksAllowed = 4;
+const clicksAllowed = 25;
 let indexArray = [];
 
 function Product(name, fileExtension = 'jpg') {
